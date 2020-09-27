@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Practica1_formularios_especiales</string>
+    <string name="Nombre">Nombre</string>
+    <string name="Apellido">Apellido</string>
+    <string name="Genero">Genero</string>
+    <string name="Nacimiento">Nacimiento</string>
+    <string name="formato_fecha">dd/mm/yyyy</string>
+    <string name="GeneroHint">Selecciona Genero</string>
+    <string-array name="ArregloGeneros">
+        <item>Masculino</item>
+        <item>Femenino</item>
+        <item>Patana</item>
+    </string-array>
+    <string name="rbtn_Si">Si</string>
+    <string name="rbtn_No">No</string>
+    <string name="lbl_rbtn">Te gusta programar?</string>
+    <string name="Lenguaje">Lenguaje</string>
+    <string name="lbl_java">Java</string>
+    <string name="lbl_Js">JS</string>
+    <string name="lbl_Python">Python</string>
+    <string name="lbl_Go">Go</string>
+    <string name="lbl_csharp">C#</string>
+    <string name="lbl_Cobol">Cobol</string>
+    <string name="txt_enviar">Enviar</string>
+    <string name="txt_Limpiar">Limpiar</string>
+</resources>
