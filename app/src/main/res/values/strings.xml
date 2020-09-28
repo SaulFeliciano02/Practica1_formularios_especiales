@@ -23,4 +23,5 @@
     <string name="lbl_Cobol">Cobol</string>
     <string name="txt_enviar">Enviar</string>
     <string name="txt_Limpiar">Limpiar</string>
+    <string name="lbl_legusta">Le gusta programar?</string>
 </resources>
