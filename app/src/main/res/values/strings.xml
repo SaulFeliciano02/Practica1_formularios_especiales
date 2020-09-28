@@ -7,6 +7,7 @@
     <string name="formato_fecha">dd/mm/yyyy</string>
     <string name="GeneroHint">Selecciona Genero</string>
     <string-array name="ArregloGeneros">
+        <item></item>
         <item>Masculino</item>
         <item>Femenino</item>
         <item>Patana</item>

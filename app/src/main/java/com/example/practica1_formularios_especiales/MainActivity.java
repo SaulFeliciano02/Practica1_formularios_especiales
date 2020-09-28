@@ -1,6 +1,10 @@
 package com.example.practica1_formularios_especiales;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,11 +52,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnLimpiar.setOnClickListener(this);
         btnEnviar = findViewById(R.id.btn_enviar);
         btnEnviar.setOnClickListener(this);
+        fecha.setOnClickListener(this);
+        no.setOnClickListener(this);
+        si.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.rbtn_2:
+                java.setEnabled(false);
+                csharp.setEnabled(false);
+                js.setEnabled(false);
+                python.setEnabled(false);
+                cobol.setEnabled(false);
+                go.setEnabled(false);
+                if(java.isChecked()){
+                    java.toggle();
+                }
+                if(csharp.isChecked()){
+                    csharp.toggle();
+                }
+                if(go.isChecked()){
+                    go.toggle();
+                }
+                if(python.isChecked()){
+                    python.toggle();
+                }
+                if(cobol.isChecked()){
+                    cobol.toggle();
+                }
+                if(js.isChecked()){
+                    js.toggle();
+                }
+                break;
+            case R.id.rbtn_1:
+                java.setEnabled(true);
+                csharp.setEnabled(true);
+                js.setEnabled(true);
+                python.setEnabled(true);
+                cobol.setEnabled(true);
+                go.setEnabled(true);
+                break;
+            case R.id.et_mostrar_fecha_picker:
+                showDatePickerDialog();
+                break;
             case R.id.btn_limpiar:
                 txtNombre.getText().clear(); //or you can use editText.setText("");
                 txtApellido.getText().clear();
@@ -79,45 +123,96 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.btn_enviar:
-                Intent intent = new Intent(getApplicationContext(), ResultsActivity.class);
-                intent.putExtra("Nombre", txtNombre.getText().toString());
-                intent.putExtra("Apellido", txtApellido.getText().toString());
-                intent.putExtra("Fecha", fecha.getText().toString());
-                intent.putExtra("Genero", genero.getSelectedItem().toString());
-                ArrayList<String> lenguajes = new ArrayList<>();
-                if (si.isChecked())
+                if (TextUtils.isEmpty(txtNombre.getText()))
                 {
-                    intent.putExtra("Gustar", "Si");
+                    txtNombre.setText("Requerido");
                 }
-                else {
-                    intent.putExtra("Gustar", "No");
-                }
-                if(java.isChecked())
+                if (TextUtils.isEmpty(txtApellido.getText()))
                 {
-                    lenguajes.add("Java");
+                    txtApellido.setText("Requerido");
                 }
-                if(csharp.isChecked())
+                if (genero.getSelectedItemPosition() == 0)
                 {
-                    lenguajes.add("C#");
+                    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                    alertDialog.setTitle("Alerta");
+                    alertDialog.setMessage("El genero debe ser expecificado");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
                 }
-                if (cobol.isChecked())
+                if (si.isChecked() && !java.isChecked() && !cobol.isChecked() && !csharp.isChecked() && !js.isChecked() && !python.isChecked() && !go.isChecked())
                 {
-                    lenguajes.add("Cobol");
+                        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                        alertDialog.setTitle("Alerta");
+                        alertDialog.setMessage("Jablador, a ti no te gusta na!");
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        alertDialog.show();
                 }
-                if (go.isChecked())
+                else
                 {
-                    lenguajes.add("Go");
+                    Intent intent = new Intent(getApplicationContext(), ResultsActivity.class);
+                    intent.putExtra("Nombre", txtNombre.getText().toString());
+                    intent.putExtra("Apellido", txtApellido.getText().toString());
+                    intent.putExtra("Fecha", fecha.getText().toString());
+                    intent.putExtra("Genero", genero.getSelectedItem().toString());
+                    ArrayList<String> lenguajes = new ArrayList<>();
+                    if (si.isChecked())
+                    {
+                        intent.putExtra("Gustar", "Si");
+                    }
+                    else {
+                        intent.putExtra("Gustar", "No");
+                    }
+                    if(java.isChecked())
+                    {
+                        lenguajes.add("Java");
+                    }
+                    if(csharp.isChecked())
+                    {
+                        lenguajes.add("C#");
+                    }
+                    if (cobol.isChecked())
+                    {
+                        lenguajes.add("Cobol");
+                    }
+                    if (go.isChecked())
+                    {
+                        lenguajes.add("Go");
+                    }
+                    if (python.isChecked())
+                    {
+                        lenguajes.add("Python");
+                    }
+                    if (js.isChecked())
+                    {
+                        lenguajes.add("JS");
+                    }
+                    intent.putExtra("Lenguajes", lenguajes);
+                    startActivity(intent);
                 }
-                if (python.isChecked())
-                {
-                    lenguajes.add("Python");
-                }
-                if (js.isChecked())
-                {
-                    lenguajes.add("JS");
-                }
-                intent.putExtra("Lenguajes", lenguajes);
-                startActivity(intent);
+                break;
         }
+    }
+
+    private void showDatePickerDialog() {
+        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                // +1 because January is zero
+                final String selectedDate = day + " / " + (month+1) + " / " + year;
+                fecha.setText(selectedDate);
+            }
+        });
+
+        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 }
